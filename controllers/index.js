@@ -7,6 +7,12 @@ const handleError = function (err) {
 const bcrypt = require('bcrypt');
 const salt = 10;
 
+function testMail(adress) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(adress);
+}
+
+
 //////////////////
 ////  module  ////
 //////////////////
@@ -61,15 +67,20 @@ const controller = {
     },
     // POST /register
     save: async function (req, res, next) {
-        let hashedPassword = bcrypt.hashSync(req.body.pass,salt);
-        let newUser = new User({ email: req.body.email, pass: hashedPassword })
-        newUser.save(function (err) {
-            console.log(err);
-            if (err) return handleError(err);
-            res.render('login', {
+        if (testMail(req.body.email)) { //backend validation
+            let hashedPassword = bcrypt.hashSync(req.body.pass, salt);
+            let newUser = new User({ email: req.body.email, pass: hashedPassword })
+            newUser.save(function (err) {
+                if (err) return handleError(err);
+                res.render('login', {
+                    logged: req.cookies.user ? true : req.session.activeUser ? true : false,
+                })
+            });
+        } else {
+            res.render('register', {
                 logged: req.cookies.user ? true : req.session.activeUser ? true : false,
             })
-        });
+        }
     },
     // GET /inbox/:sorter?
     inbox: async function (req, res, next) {
@@ -77,11 +88,11 @@ const controller = {
         if (req.params.sorter) {
             switch (req.params.sorter) {
                 case ("read"):
-                    var receivedMails = await Mail.where({ receiver: user, deleted: false, read: true }).sort({ "created_at": -1 }).limit(10); break;
+                    var receivedMails = await Mail.where({ receiver: user, deleted: false, read: true, spam: false }).sort({ "created_at": -1 }).limit(10); break;
                 case ("unread"):
-                    var receivedMails = await Mail.where({ receiver: user, deleted: false, read: false }).sort({ "created_at": -1 }).limit(10); break;
+                    var receivedMails = await Mail.where({ receiver: user, deleted: false, read: false, spam: false }).sort({ "created_at": -1 }).limit(10); break;
                 case ("favorite"):
-                    var receivedMails = await Mail.where({ receiver: user, deleted: false, favorite: true }).sort({ "created_at": -1 }).limit(10); break;
+                    var receivedMails = await Mail.where({ receiver: user, deleted: false, favorite: true, spam: false }).sort({ "created_at": -1 }).limit(10); break;
                 case ("spam"):
                     var receivedMails = await Mail.where({ receiver: user, deleted: false, spam: true }).sort({ "created_at": -1 }).limit(10); break;
                 case ("deleted"):
@@ -90,7 +101,7 @@ const controller = {
                     var receivedMails = await Mail.find({ receiver: user, deleted: false }).sort({ "created_at": -1 }).limit(10)
             }
         } else {
-            var receivedMails = await Mail.where({ receiver: user, deleted: false }).sort({ "created_at": -1 }).limit(10)
+            var receivedMails = await Mail.where({ receiver: user, deleted: false, spam: false }).sort({ "created_at": -1 }).limit(10)
         }
         let sentMails = await Mail.where({ sender: user })
         res.render('inbox', {
@@ -105,6 +116,11 @@ const controller = {
         // arranges receivers neatly
         let receiverArray = req.body.recipientString.split(",")
         receiverArray.forEach((rec, index) => { receiverArray[index] = rec.trim() });
+        function testMail (adress) {
+            var re = /\S+@\S+\.\S+/;
+            return re.test(adress);
+        }
+        receiverArray.forEach((rec, index) => { receiverArray[index] = testMail(email) ? rec.trim() : null });
         // loads user
         const thisUser = await User.findOne({ email: email });
         // makes object
@@ -129,21 +145,22 @@ const controller = {
     readMail: async function (req, res, next) {
         // fetch email
         let mail = await Mail.findById(req.params.mailID);
-        console.log(mail);
         // check with user & render page with email
         if ((typeof mail.receiver) == 'string') {
-            console.log('got to string!');
             if (mail.receiver == (req.session.activeUser || req.cookies.user)) {
+                // mail is read!
+                mail.read = true; await mail.save()
                 res.render('inboxReader', {
                     mail: mail,
                     logged: req.cookies.user ? true : req.session.activeUser ? true : false,
                 })
             }
         } else {
-            console.log('not a string?');
             if ((typeof mail.receiver) == 'object') {
                 for (let i = 0; i < mail.receiver.length; i++) {
                     if (mail.receiver[i] == (req.session.activeUser || req.cookies.user)) {
+                        // mail is read!
+                        mail.read = true; await mail.save()
                         res.render('inboxReader', {
                             mail: mail,
                             logged: req.cookies.user ? true : req.session.activeUser ? true : false,

@@ -27,12 +27,12 @@ window.addEventListener('load', function () {
     })
 
     // replying function
-    let replies = document.getElementsByClassName('fa-reply');
-    for (let i = 0; i < replies.length; i++) {
-        replies[i].addEventListener('click', e => {
-            modalBtn.click();
-            //gets the sender and attaches it
-            recipientField.value = replies[i].parentElement.innerText.trim().split("\n")[0] 
-        })
-    }
+    let reply = document.getElementById('reply');
+    reply.addEventListener('click', e => {
+        modalBtn.click();
+        //gets the sender and attaches it
+        recipientField.value = reply.parentElement.innerText.trim().split("\n")[0]
+        subjectField.value = "FWD: "
+    })
+
 })

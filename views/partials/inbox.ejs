@@ -2,7 +2,11 @@
 <!--start the iteration-->
 <div id='mailContainer'>
     <a id="subjectLink" href="/inbox/mail/<%= receivedMails[i]._id %>">
-        <h3 id="mailSubject" style="z-index: 10;"><%= receivedMails[i].subject %></h3>
+        <h3 id="mailSubject" style="z-index: 10;
+        <% if (!receivedMails[i].read) { %>
+        font-weight: bold; font-size: 1.5rem;
+        <% } %>
+        "><%= receivedMails[i].subject %></h3>
     </a>
 
     <p id="timestamp"><%= receivedMails[i].created_at.toString().slice(4,21) %></p>

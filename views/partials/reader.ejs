@@ -8,7 +8,7 @@
 
         <div id="icons">
             <span>
-                <i class="fa fa-reply" aria-hidden="true"></i>
+                <i id="reply" class="fa fa-reply" aria-hidden="true"></i>
                 <%= mail.sender %>
             </span>
             <!--check for read, fav, spam, del status-->
@@ -32,7 +32,9 @@
             <% } else {  %>
             <button>mark as spam</button></a>
             <% } %>
-
+                <% if (mail.deleted) { %>
+                    Este correo se encuentra eliminado
+                    <% } %>
             <a href="/api/toggle/<%- mail._id %>/deleted">
                 <i class="fa fa-trash"></i><br>
             </a>
@@ -41,4 +43,6 @@
         <p id="content"><%= mail.details %></p>
     </div>
 </div>
-<p><a href=/inbox/mail/<%= mail._id %>>refresh</a></p>
+<!-- dev tool
+    <p><a href=/inbox/mail/<%= mail._id %>>refresh</a></p>
+-->
