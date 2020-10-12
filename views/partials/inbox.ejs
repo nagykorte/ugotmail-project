@@ -1,0 +1,31 @@
+<% for (let i = 0; i < receivedMails.length; i++) { %>
+<div id='mailContainer'>
+    <p id="timestamp"><%= receivedMails[i].created_at.toString().slice(4,21) %></p>
+    <h3 id="mailSubject"><%= receivedMails[i].subject %></h3>
+    <p id="senderID">
+        <i class="fa fa-reply" aria-hidden="true"></i>
+        <%= receivedMails[i].sender %><br>
+        <a href="/api/toggle/<%- receivedMails[i]._id %>/read">
+            <% if (receivedMails[i].read) { %>
+            <i class="fa fa-envelope-open"></i><br></a>
+        <% } else { %>
+        <i class="fa fa-envelope"></i><br></a>
+        <% } %>
+        <a href="/api/toggle/<%- receivedMails[i]._id %>/favorite">
+            <% if (receivedMails[i].favorite) { %>
+            <i class="fa fa-star"></i><br></a>
+        <% } else { %>
+        <i class="fa fa-star-o"></i><br></a>
+        <% } %>
+        <a href="/api/toggle/<%- receivedMails[i]._id %>/spam">
+            <% if (receivedMails[i].spam) { %>
+            <button>not spam!</button> </a>
+        <% } else {  %>
+        <button>mark as spam</button></a>
+        <% } %>
+        <a href="/api/toggle/<%- receivedMails[i]._id %>/deleted">
+            <i class="fa fa-trash"></i><br>
+        </a>
+    <p id="mailDetails"><%= receivedMails[i].details %></p>
+</div>
+<% } %>

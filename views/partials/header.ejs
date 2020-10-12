@@ -1,0 +1,8 @@
+<a href="/">index</a>
+<% if (logged) { %>
+<a href="/inbox">inbox</a>
+<a class="right" href="/logout">logout</a>
+<% } else { %>
+<a href="/login">login</a>
+<a href="/register">register</a>
+<% } %>

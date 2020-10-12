@@ -1,0 +1,35 @@
+form {
+  padding: 50px 5vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
+.form-control {
+  max-width: 60%;
+  height: 60px;
+  font-size: 0.7em; }
+
+.submitBtn {
+  margin-top: 5vh;
+  height: 60px;
+  width: 400px;
+  font-size: 0.8em;
+  background-color: #edb230;
+  border-color: #daa007; }
+  .submitBtn:hover {
+    border-color: #daa007 !important;
+    background-color: #edb230 !important; }
+
+.chkbx {
+  transform: scale(2);
+  position: relative;
+  right: 15px;
+  bottom: 5px; }
+
+label {
+  margin-top: 2vh; }
+
+h1 {
+  text-align: center; }
+
+/*# sourceMappingURL=register.css.map */

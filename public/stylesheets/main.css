@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+header {
+  background-color: #daa007;
+  height: fit-content; }
+  header .right {
+    float: right; }
+
+body {
+  background-color: #ffd151;
+  font: 2.3em 'Noto Sans JP', sans-serif; }
+
+a {
+  color: black;
+  text-decoration: none;
+  margin-left: 3vw; }
+
+#topbar {
+  height: 100px;
+  overflow: hidden; }
+
+/*# sourceMappingURL=main.css.map */

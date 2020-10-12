@@ -1,0 +1,104 @@
+#container {
+  display: grid; }
+  @media screen and (max-width: 767px) {
+    #container {
+      grid-template-columns: 0.6fr 1fr 1fr;
+      grid-template-rows: 70px 94vh; } }
+  @media (min-width: 768px) {
+    #container {
+      grid-template-columns: 0.5fr 1fr 1fr;
+      grid-template-rows: 70px 75vh; } }
+
+#sidebar {
+  grid-column: 1;
+  grid-row: 1/3;
+  background-color: #f8c537;
+  z-index: 2; }
+
+#topbar {
+  grid-column: 2/4;
+  grid-row: 1;
+  background-color: #edb230; }
+
+#main {
+  grid-column: 2/4;
+  grid-row: 2/3;
+  background-color: #ffd151; }
+
+button {
+  background-color: #ffd151 !important;
+  border-color: #daa007 !important; }
+  button:hover {
+    border-color: #daa007 !important;
+    background-color: #edb230 !important; }
+
+.topbarBtn {
+  color: black;
+  font-size: 1.5rem; }
+
+.grey {
+  color: grey;
+  font-size: 1rem; }
+
+#mailDetails {
+  overflow: hidden;
+  display: inline-block; }
+
+#mailContainer {
+  background-color: #ffd151;
+  height: 12%;
+  margin: 10px;
+  border: solid 2px #edb230;
+  overflow: hidden;
+  min-height: fit-content; }
+  #mailContainer #timestamp {
+    width: 23%;
+    float: left;
+    height: auto; }
+  #mailContainer button {
+    margin: 0; }
+  #mailContainer h3 {
+    font-size: 2rem;
+    float: left;
+    height: 25%; }
+  #mailContainer p {
+    font-size: 1.2rem;
+    display: block;
+    height: 75%; }
+  #mailContainer #senderID {
+    text-align: right;
+    display: block;
+    width: 23%;
+    float: right; }
+  #mailContainer #mailDetails {
+    position: absolute;
+    margin-top: 4%;
+    width: 70%; }
+
+#inboxSidebar {
+  font-size: 1.2rem;
+  margin-left: 10px; }
+  #inboxSidebar h2 {
+    font-size: 2rem;
+    margin: 30px 0; }
+
+@media (min-width: 1024px) {
+  #mailContainer {
+    height: 20vh;
+    padding-right: 5px;
+    width: 98%; }
+    #mailContainer #senderID {
+      float: right;
+      width: 35%; }
+    #mailContainer #timestamp {
+      float: left;
+      height: auto; }
+    #mailContainer #mailDetails {
+      float: none;
+      margin-top: 3%;
+      width: 60%; } }
+
+i {
+  margin-right: 5px; }
+
+/*# sourceMappingURL=inbox.css.map */
