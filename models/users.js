@@ -25,8 +25,8 @@ userSchema.method({
                 res.render("404", { logged: req.cookies.user ? true : req.session.activeUser ? true : false, });
                 throw err;
             } else {
-                let receivedMails = await Mail.where({ receiver: data.sender })
-                let sentMails = await Mail.where({ sender: data.sender })
+                let receivedMails = await Mail.where({ receiver: data.sender }).sort({"created_at":-1}).limit(10)
+                let sentMails = await Mail.where({ sender: data.sender }).sort({"created_at":-1}).limit(10)
                 res.render('inbox', {
                     receivedMails: receivedMails || [],
                     sentMails: sentMails || [],

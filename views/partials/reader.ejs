@@ -1,0 +1,44 @@
+<div class="container">
+    <h2><%= mail.subject %></h2>
+    <p id="sender"></p>
+    <div id="optionWrapper">
+
+        <p id="timestamp"><%= mail.created_at %></p>
+
+
+        <div id="icons">
+            <span>
+                <i class="fa fa-reply" aria-hidden="true"></i>
+                <%= mail.sender %>
+            </span>
+            <!--check for read, fav, spam, del status-->
+            <a href="/api/toggle/<%- mail._id %>/read">
+                <% if (mail.read) { %>
+                <i class="fa fa-envelope-open"></i><br></a>
+            <% } else { %>
+            <i class="fa fa-envelope"></i><br></a>
+            <% } %>
+
+            <a href="/api/toggle/<%- mail._id %>/favorite">
+                <% if (mail.favorite) { %>
+                <i class="fa fa-star"></i><br></a>
+            <% } else { %>
+            <i class="fa fa-star-o"></i><br></a>
+            <% } %>
+
+            <a href="/api/toggle/<%- mail._id %>/spam">
+                <% if (mail.spam) { %>
+                <button>not spam!</button> </a>
+            <% } else {  %>
+            <button>mark as spam</button></a>
+            <% } %>
+
+            <a href="/api/toggle/<%- mail._id %>/deleted">
+                <i class="fa fa-trash"></i><br>
+            </a>
+
+        </div><br>
+        <p id="content"><%= mail.details %></p>
+    </div>
+</div>
+<p><a href=/inbox/mail/<%= mail._id %>>refresh</a></p>

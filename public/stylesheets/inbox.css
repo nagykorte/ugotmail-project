@@ -51,10 +51,27 @@ button {
   border: solid 2px #edb230;
   overflow: hidden;
   min-height: fit-content; }
+  #mailContainer #subjectLink {
+    display: block;
+    z-index: 1000; }
+  #mailContainer #mailSubject {
+    height: auto;
+    overflow: hidden;
+    font-size: 1.3rem;
+    max-width: 50%;
+    z-index: 10; }
+  #mailContainer #senderID {
+    text-align: right;
+    display: block;
+    width: 23%;
+    float: inline-end; }
   #mailContainer #timestamp {
+    text-align: right;
     width: 23%;
     float: left;
-    height: auto; }
+    height: auto;
+    margin: 2px;
+    font-size: 1rem; }
   #mailContainer button {
     margin: 0; }
   #mailContainer h3 {
@@ -65,11 +82,6 @@ button {
     font-size: 1.2rem;
     display: block;
     height: 75%; }
-  #mailContainer #senderID {
-    text-align: right;
-    display: block;
-    width: 23%;
-    float: right; }
   #mailContainer #mailDetails {
     position: absolute;
     margin-top: 4%;
@@ -89,16 +101,48 @@ button {
     width: 98%; }
     #mailContainer #senderID {
       float: right;
-      width: 35%; }
+      width: 25%; }
     #mailContainer #timestamp {
       float: left;
       height: auto; }
     #mailContainer #mailDetails {
       float: none;
       margin-top: 3%;
-      width: 60%; } }
+      width: 60%;
+      height: 15%; } }
 
 i {
   margin-right: 5px; }
+
+.container h2 {
+  display: inline; }
+
+.container #sender {
+  display: inline;
+  float: right;
+  margin-top: 5px; }
+
+.container #timestamp {
+  font-size: .8rem;
+  display: flex;
+  width: 70%; }
+
+.container p {
+  font-size: 1rem; }
+
+.container #icons {
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 21%;
+  position: absolute;
+  right: 15px;
+  top: 130px; }
+
+.container #optionWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; }
 
 /*# sourceMappingURL=inbox.css.map */

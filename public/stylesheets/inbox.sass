@@ -34,7 +34,7 @@ button
 .grey //for a comment in the modal
     color: grey
     font-size: 1rem
-#mailDetails
+#mailDetails // avoiding cumbersome mails
     overflow: hidden
     display: inline-block
 
@@ -46,10 +46,27 @@ button
     border: solid 2px $darker
     overflow: hidden
     min-height: fit-content
+    #subjectLink
+        display: block
+        z-index: 1000 // dis is srs bsns guise
+    #mailSubject
+        height: auto
+        overflow: hidden
+        font-size: 1.3rem
+        max-width: 50%
+        z-index: 10
+    #senderID
+        text-align: right
+        display: block
+        width: 23%
+        float: inline-end
     #timestamp
+        text-align: right
         width: 23%
         float: left
         height: auto
+        margin: 2px
+        font-size: 1rem
     button
         margin: 0
     h3
@@ -60,12 +77,6 @@ button
         font-size: 1.2rem
         display: block
         height: 75%
-    #senderID
-        text-align: right
-        display: block
-        width: 23%
-        float: right
-        // margin-top: -45px
     #mailDetails
         position: absolute
         margin-top: 4%
@@ -83,7 +94,7 @@ button
         width: 98%
         #senderID
             float: right
-            width: 35%
+            width: 25%
         #timestamp
             float: left
             height: auto
@@ -91,5 +102,37 @@ button
             float: none
             margin-top: 3%
             width: 60%
+            height: 15%
 i
     margin-right: 5px
+
+////////////////
+//// reader ////
+////////////////
+
+.container
+    h2
+        display: inline
+    #sender
+        display: inline
+        float: right
+        margin-top: 5px
+    #timestamp
+        font-size: .8rem
+        display: flex
+        width: 70%
+    p
+        font-size: 1rem
+    #icons
+        font-size: 1rem
+        display: flex
+        flex-direction: column
+        align-items: flex-end
+        width: 21%
+        position: absolute
+        right: 15px
+        top: 130px
+    #optionWrapper
+        display: flex
+        flex-direction: column
+        justify-content: space-between       

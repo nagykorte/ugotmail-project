@@ -5,8 +5,12 @@ const handleError = function (err) {
     console.error(err);
 };
 
-// module itself
+//////////////////
+////  module  ////
+//////////////////
+
 const controller = {
+    // GET /
     index: async function (req, res, next) {
         req.session.activeUser = req.cookies.user
         res.render('index', {
@@ -14,12 +18,14 @@ const controller = {
             logged: req.cookies.user ? true : req.session.activeUser ? true : false,
         });
     },
+    // GET /login
     login: function (req, res, next) {
         res.render('login', {
             title: 'title',
             logged: req.cookies.user ? true : req.session.activeUser ? true : false,
         });
     },
+    // POST /login
     checkin: async function (req, res, next) {
         if (req.cookies.user) { res.clearCookie('user'); }
         if (req.session.activeUser) { req.session.destroy(); }
@@ -44,12 +50,14 @@ const controller = {
                 { logged: req.cookies.user ? true : req.session.activeUser ? true : false })
         }
     },
+    // GET /register
     register: function (req, res, next) {
         res.render('register', {
             title: 'Register',
             logged: req.cookies.user ? true : req.session.activeUser ? true : false,
         });
     },
+    // POST /register
     save: async function (req, res, next) {
         let newUser = new User({ email: req.body.email, pass: req.body.pass })
         newUser.save(function (err) {
@@ -60,36 +68,26 @@ const controller = {
             })
         });
     },
+    // GET /inbox/:sorter?
     inbox: async function (req, res, next) {
         let user = req.cookies.user || req.session.activeUser;
         if (req.params.sorter) {
             switch (req.params.sorter) {
                 case ("read"):
-                    console.log('read');
-                    var receivedMails = await Mail.where({ receiver: user, read: true })
-                    break;
+                    var receivedMails = await Mail.where({ receiver: user, deleted: false, read: true }).sort({ "created_at": -1 }).limit(10); break;
                 case ("unread"):
-                    var receivedMails = await Mail.where({ receiver: user, read: false })
-                    console.log('unread');
-                    break;
+                    var receivedMails = await Mail.where({ receiver: user, deleted: false, read: false }).sort({ "created_at": -1 }).limit(10); break;
                 case ("favorite"):
-                    var receivedMails = await Mail.where({ receiver: user, favorite: true })
-                    console.log('favorite');
-                    break;
+                    var receivedMails = await Mail.where({ receiver: user, deleted: false, favorite: true }).sort({ "created_at": -1 }).limit(10); break;
                 case ("spam"):
-                    var receivedMails = await Mail.where({ receiver: user, spam: true })
-                    console.log('spam');
-                    break;
+                    var receivedMails = await Mail.where({ receiver: user, deleted: false, spam: true }).sort({ "created_at": -1 }).limit(10); break;
                 case ("deleted"):
-                    var receivedMails = await Mail.where({ receiver: user, deleted: true })
-                    console.log('deleted');
-                    break;
+                    var receivedMails = await Mail.where({ receiver: user, deleted: true }).sort({ "created_at": -1 }).limit(10); break;
                 default:
-                    var receivedMails = await Mail.where({ receiver: user })
-                    console.log('git gud');
+                    var receivedMails = await Mail.find({ receiver: user, deleted: false }).sort({ "created_at": -1 }).limit(10)
             }
         } else {
-            var receivedMails = await Mail.where({ receiver: user })
+            var receivedMails = await Mail.where({ receiver: user, deleted: false }).sort({ "created_at": -1 }).limit(10)
         }
         let sentMails = await Mail.where({ sender: user })
         res.render('inbox', {
@@ -98,6 +96,7 @@ const controller = {
             logged: req.cookies.user ? true : req.session.activeUser ? true : false,
         })
     },
+    // POST /send/mail
     sendMail: async function (req, res, next) {
         let email = req.cookies.user || req.session.activeUser;
         // arranges receivers neatly
@@ -117,14 +116,43 @@ const controller = {
             title: 'Ugot Mail',
             logged: req.cookies.user ? true : req.session.activeUser ? true : false,
         });
-
     },
+    // GET /logout
     logout: function (req, res) {
         if (req.cookies.user) { res.clearCookie('user'); };
         if (req.session.activeUser) { req.session.destroy(); }
         res.render('index', { title: 'Ugot Mail', logged: false })
     },
-}
-
+    readMail: async function (req, res, next) {
+        // fetch email
+        let mail = await Mail.findById(req.params.mailID);
+        console.log(mail);
+        // check with user & render page with email
+        if ((typeof mail.receiver) == 'string') {
+            console.log('got to string!');
+            if (mail.receiver == (req.session.activeUser || req.cookies.user)) {
+                res.render('inboxReader', {
+                    mail: mail,
+                    logged: req.cookies.user ? true : req.session.activeUser ? true : false,
+                })
+            }
+        } else {
+            console.log('not a string?');
+            if ((typeof mail.receiver) == 'object') {
+                for (let i = 0; i < mail.receiver.length; i++) {
+                    if (mail.receiver[i] == (req.session.activeUser || req.cookies.user)) {
+                        res.render('inboxReader', {
+                            mail: mail,
+                            logged: req.cookies.user ? true : req.session.activeUser ? true : false,
+                        })
+                        break;
+                    }
+                }
+            } else {
+                res.send('invalid data')
+            }
+        }
+    }
+};
 
 module.exports = controller

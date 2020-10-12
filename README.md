@@ -4,7 +4,7 @@
 
 La página se desarrolló en nodejs usando express y mongoose.
 
-## Inicialización
+### Inicialización
 
 Para encender el servidor web:
 ```js
