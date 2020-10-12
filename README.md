@@ -4,20 +4,28 @@ CRUD realizado en nodejs con express y mongo con una interfaz visual web mínima
 
 ### Inicialización
 
-Para encender el servidor web:
+Asumiendo que no sepas usar github, entrá al directorio donde quieras guardar este proyecto y corré este código desde una consola:
+
+    > git clone https://github.com/nagykorte/ugotmail-project.git
+
+Para encender el servidor web, desde la misma carpeta del repo usá en la consola:
     
     > yarn install 
     > yarn start
 
-El servidor corre por defecto en localhost:3000.
+El servidor corre por defecto en localhost:3000. Podés acceder desde cualquier browser con esa dirección.
     
 El proyecto requiere una instancia de mongod corriendo.
 Funciona por defecto en localhost:27017 dbpath=/data/db creando una base de datos 'mail'.
 
+Si estás buscando emplearme no creo que te sirva esto, pero si estás revisando mi repositorio y no sabés usar mongo, te recomendaría leer esto: 
+
+https://docs.mongodb.com/manual/administration/install-community/
+
 
  ## Implementación
 
- El proyecto implementa dos objetos principales User y Main para manejar la validación y envío del correo propiamente dicho. Las contraseñas están encriptadas con 10 de salt en bcrypt. La API está implementada sólo para funcionalidad mínima a la hora de cambiar estados de email. Maneja logueo de usuario, validaciones por front y backend. Usa expresiones regulares simples pero fue a propósito, para no limitar demasiado el charset aceptado.
+ El proyecto implementa dos objetos principales User y Main para manejar la validación y envío del correo propiamente dicho. Las contraseñas están encriptadas con 10 de salt en bcrypt. La API está implementada sólo para funcionalidad mínima a la hora de cambiar estados de email. Maneja logueo de usuario, validaciones por front y backend. Usa expresiones regulares simples pero fue a propósito, para no limitar demasiado el charset aceptado. 
 
 ### Info adicional
 
@@ -46,6 +54,6 @@ Issue #1, la implementación del toggle para read/fav/spam/deleted es sólida pe
 Issue #2, en un par de forms si hay un error solo te redirige a otra página (puse un par por las dudas, pero me refiero específicamente al de registro. Si funciona, te manda a login. Si no, te redirige a registro). Sólo pasa cuando salteás las validaciones por front. También puse un par de ``` alert() ``` por ahí. 
 
 
-On a personal note, el proyecto tuvo sus traspiés. A mitad de camino me arrepentí de no hacer la aplicación en React con más énfasis en la api en vez de la interfaz visual. Por las dudas decidí no hacerlo porque no lo pedía específicamente pero siento que hubiera resultado más natural para una bandeja de entrada de un correo.
+On a personal note, el proyecto tuvo sus traspiés. A mitad de camino me arrepentí de no hacer la aplicación en React con más énfasis en la api en vez de la interfaz visual. Por las dudas decidí no hacerlo porque no lo pedía específicamente pero siento que hubiera resultado más natural para una bandeja de entrada de un correo. Toda la aplicación también es responsive con un diseño mobile-first. Por qué, si es backend? No sé. La costumbre, supongo.
 
 Made with Bootstrap? More like tied with boot straps, am I right?
