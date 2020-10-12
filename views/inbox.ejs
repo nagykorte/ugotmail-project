@@ -27,6 +27,10 @@
         <div id="topbar">
             <button type="button" class="btn btn-primary topbarBtn" data-toggle="modal" id="modalBtn"
                 data-target="#exampleModal">Enviar correo</button>
+            <form id="query" method="POST" action="/inbox/search" >
+                <input type="text" name="query">
+                <button type="submit">send me!</button>
+            </form>
             <!-- modal button&form for email sending. -->
 
             <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog"

@@ -54,6 +54,8 @@ const controller = {
             }
         }
         if (!req.cookies.user && !req.session.activeUser) {
+            console.log(req.cookies.user);
+            console.log(req.session.activeUser);
             res.render("login",
                 { logged: req.cookies.user ? true : req.session.activeUser ? true : false })
         }
@@ -116,7 +118,7 @@ const controller = {
         // arranges receivers neatly
         let receiverArray = req.body.recipientString.split(",")
         receiverArray.forEach((rec, index) => { receiverArray[index] = rec.trim() });
-        function testMail (adress) {
+        function testMail(adress) {
             var re = /\S+@\S+\.\S+/;
             return re.test(adress);
         }
@@ -172,6 +174,22 @@ const controller = {
                 res.send('invalid data')
             }
         }
+    },
+    search: async function (req, res, next) {
+        let query = req.body.query;
+        console.log(req.session.activeUser);
+        console.log(req.cookies.user);
+        const senderMails = await Mail.find({receiver: req.session.activeUser||req.cookies.user ,sender: { "$regex": query, "$options": "i" }})
+        const detailsMails = await Mail.find({receiver: req.session.activeUser||req.cookies.user ,details:  { "$regex": query, "$options": "i" } })
+        console.log(detailsMails);
+        const subjectMails = await Mail.find({receiver: req.session.activeUser||req.cookies.user ,subject:  { "$regex": query, "$options": "i" } })
+        const finalMails = [...senderMails,  ...detailsMails, ...subjectMails]
+        console.log(finalMails);
+        res.render('inbox', {
+            receivedMails: finalMails,
+            sentMails: [],
+            logged: req.cookies.user ? true : req.session.activeUser ? true : false,
+        })
     }
 };
 

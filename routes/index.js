@@ -16,5 +16,6 @@ router.post('/register', controller.save);
 router.get('/inbox/:sorter?', middleware.logged, controller.inbox);
 router.get('/inbox/mail/:mailID',middleware.logged, controller.readMail)
 router.post('/mail/send',middleware.logged, controller.sendMail)
+router.post('/inbox/search',middleware.logged, controller.search)
 
 module.exports = router;
