@@ -4,6 +4,8 @@ const Mail = require('../models/mails')
 const handleError = function (err) {
     console.error(err);
 };
+const bcrypt = require('bcrypt');
+const salt = 10;
 
 //////////////////
 ////  module  ////
@@ -59,7 +61,8 @@ const controller = {
     },
     // POST /register
     save: async function (req, res, next) {
-        let newUser = new User({ email: req.body.email, pass: req.body.pass })
+        let hashedPassword = bcrypt.hashSync(req.body.pass,salt);
+        let newUser = new User({ email: req.body.email, pass: hashedPassword })
         newUser.save(function (err) {
             console.log(err);
             if (err) return handleError(err);

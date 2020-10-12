@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const Mail = require('./mails')
+const bcrypt = require('bcrypt')
+const salt = 10
 
 const userSchema = new Schema({
     email: {
@@ -17,7 +19,7 @@ const userSchema = new Schema({
     }
 });
 userSchema.method({
-    login: function (password) { return this.pass == password ? true : false }, // login, returns bool
+    login: function (password) { return bcrypt.compareSync(password, this.pass) ? true : false }, // login, returns bool
     sendMail: async function (data, req, res, next) {
         let mail = new Mail(data); // create and save
         mail.save(async function (err) {
