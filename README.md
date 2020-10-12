@@ -4,15 +4,23 @@ CRUD realizado en nodejs con express y mongo con una interfaz visual web mínima
 
 ### Inicialización
 
-Para encender el servidor web:
+Asumiendo que no sepas usar github, entrá al directorio donde quieras guardar este proyecto y corré este código desde una consola:
+
+    > git clone https://github.com/nagykorte/ugotmail-project.git
+
+Para encender el servidor web, desde la misma carpeta del repo usá en la consola:
     
     > yarn install 
     > yarn start
 
-El servidor corre por defecto en localhost:3000.
+El servidor corre por defecto en localhost:3000. Podés acceder desde cualquier browser con esa dirección.
     
 El proyecto requiere una instancia de mongod corriendo.
 Funciona por defecto en localhost:27017 dbpath=/data/db creando una base de datos 'mail'.
+
+Si estás buscando emplearme no creo que te sirva esto, pero si estás revisando mi repositorio y no sabés usar mongo, te recomendaría leer esto: 
+
+https://docs.mongodb.com/manual/administration/install-community/
 
 
  ## Implementación
